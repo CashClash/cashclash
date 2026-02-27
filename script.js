@@ -55,8 +55,14 @@ async function loadLanguage(lang) {
 
 function applyMainTexts(main) {
     document.getElementById('mainTitle').innerText = main.ui.title;
+    
     document.getElementById('leftCumLabel').innerText = main.ui.cumulative_label;
     document.getElementById('rightCumLabel').innerText = main.ui.cumulative_label;
+
+    document.getElementById('leftBtnSpending').innerText = main.ui.spending;
+    document.getElementById('rightBtnSpending').innerText = main.ui.spending;
+    document.getElementById('leftBtnIncome').innerText = main.ui.income;
+    document.getElementById('rightBtnIncome').innerText = main.ui.income;
 }
 
 function renderLangSelector() {
