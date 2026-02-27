@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Contrast</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body data-theme="dark">
     <div class="app-container">
         <header>
-            <div class="lang-selector" id="langSelector">
-                </div>
+            <div class="lang-selector" id="langSelector"></div>
             <h1 id="mainTitle">LIVE FINANCIAL CONTRAST</h1>
             <button id="themeToggle" class="btn-tool">🌙</button>
         </header>
@@ -27,29 +25,22 @@
             <button data-unit="min">per minute</button>
             <button data-unit="hour">per hour</button>
             <button data-unit="day">per day</button>
-            <button data-unit="week">per week</button>
-            <button data-unit="month">per month</button>
             <button data-unit="year">per year</button>
         </nav>
 
         <main class="contrast-grid">
-            <div class="card spending" id="leftCard" data-side="left">
-                <div class="methodology-trigger" id="leftMethodology">ⓘ</div>
-                <div class="card-controls">
-                    <button class="mode-switch active" data-mode="spending" id="labelLeftSpend">SPENDING</button>
-                    <button class="mode-switch" data-mode="income" id="labelLeftInc">INCOME</button>
-                </div>
-                <div class="entity-header-block">
-                    <div class="entity-header">
-                        <img src="" class="entity-icon" id="leftIcon">
+            <div class="card spending" data-side="left" id="leftCard">
+                <div class="card-header">
+                    <img src="" id="leftIcon" class="entity-icon">
+                    <div class="entity-info">
                         <h2 class="entity-name" id="leftName">...</h2>
+                        <div class="entity-type" id="leftType">...</div>
                     </div>
                 </div>
-                <div class="entity-type" id="leftType">...</div>
                 <div class="visualizer"><div class="bar" id="leftBar"></div></div>
                 <div class="counter-group">
                     <div class="cumulative" id="leftCumulative">0</div>
-                    <div class="subtext" id="labelLeftCum">cumulative since Jan 1</div>
+                    <div class="subtext">cumulative</div>
                 </div>
                 <div class="live-rate">
                     <span id="leftApprox" class="approx">≈</span>
@@ -58,23 +49,36 @@
                 <div class="details-list" id="leftDetails"></div>
             </div>
 
-            </main>
+            <div class="card income" data-side="right" id="rightCard">
+                <div class="card-header">
+                    <img src="" id="rightIcon" class="entity-icon">
+                    <div class="entity-info">
+                        <h2 class="entity-name" id="rightName">...</h2>
+                        <div class="entity-type" id="rightType">...</div>
+                    </div>
+                </div>
+                <div class="visualizer"><div class="bar" id="rightBar"></div></div>
+                <div class="counter-group">
+                    <div class="cumulative" id="rightCumulative">0</div>
+                    <div class="subtext">cumulative</div>
+                </div>
+                <div class="live-rate">
+                    <span id="rightApprox" class="approx">≈</span>
+                    <span id="rightRate">0.00</span> <small id="rightUnit">/ sec</small>
+                </div>
+                <div class="details-list" id="rightDetails"></div>
+            </div>
+        </main>
 
         <div class="donate-section">
             <h3 id="donateTitle"></h3>
             <p id="donateDesc"></p>
             <a href="#" class="btn-donate" id="donateBtn">☕ Buy Me a Coffee</a>
         </div>
-
         <section id="seoContent" class="seo-block"></section>
-
         <footer>
-            <div class="footer-main">
-                <span id="footerCreated"></span> 
-                <span class="brand-name">PandaDream</span> 
-                <span class="panda-emoji">🐼</span>
-            </div>
-            <div id="footerSlogan" class="footer-slogan">Small tools, big dreams</div>
+            <span id="footerCreated"></span> <span class="brand-name">PandaDream</span> 🐼
+            <div id="footerSlogan" class="footer-slogan"></div>
         </footer>
     </div>
     <script src="script.js"></script>
