@@ -71,7 +71,6 @@ function applyMainTexts(main) {
 
     document.getElementById('donateTitle').innerText = main.donate.title;
     document.getElementById('donateDesc').innerText = main.donate.desc;
-    document.getElementById('donateBtn').innerText = main.donate.btn_text;
     document.getElementById('seoText').innerHTML = main.seo_text;
     document.getElementById('footerCreated').innerText = main.ui.footer_created;
     document.getElementById('footerSlogan').innerText = main.ui.footer_slogan;
