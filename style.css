@@ -207,16 +207,22 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 .donate-card p { font-size: 12px; color: var(--text-dim); margin-bottom: 15px; }
 .donate-btn {
     display: inline-block;
-    background: var(--text-main);
-    color: var(--bg-color);
+    background: #00ff88 !important; /* Наш зелений акцент */
+    color: #ffffff !important;      /* Завжди білий текст */
     padding: 10px 20px;
     border-radius: 20px;
     text-decoration: none;
     font-size: 13px;
     font-weight: bold;
     transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2); /* Легке зелене сяйво */
 }
-.donate-btn:hover { transform: scale(1.05); }
+
+.donate-btn:hover {
+    transform: scale(1.05);
+    background: #00e67a !important; /* Трохи темніший при наведенні */
+    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+}
 
 .seo-section {
     font-size: 12px;
