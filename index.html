@@ -2,89 +2,68 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Contrast</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Contrast Live</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body data-theme="dark">
     <div class="app-container">
         <header>
-            <div class="lang-selector" id="langSelector">
-                </div>
-            <h1 id="mainTitle">LIVE FINANCIAL CONTRAST</h1>
-            <button id="themeToggle" class="btn-tool" onclick="toggleTheme()">🌙</button>
+            <div id="langSelector"></div>
+            <h1 id="mainTitle">CONTRAST</h1>
+            <button onclick="toggleTheme()" id="themeToggle" style="background:none; border:none; cursor:pointer; font-size:18px;">🌙</button>
         </header>
 
-        <nav class="year-selector" id="yearSelector">
+        <nav id="yearSelector">
             <button class="active">2026</button>
             <button>2025</button>
             <button>2024</button>
         </nav>
 
-        <nav class="time-tabs" id="timeTabs">
-            <button data-unit="sec" class="active">per second</button>
-            <button data-unit="min">per minute</button>
-            <button data-unit="hour">per hour</button>
-            <button data-unit="day">per day</button>
-            <button data-unit="week">per week</button>
-            <button data-unit="month">per month</button>
-            <button data-unit="year">per year</button>
+        <nav id="timeTabs">
+            <button data-unit="sec" class="active">/sec</button>
+            <button data-unit="min">/min</button>
+            <button data-unit="hour">/hour</button>
+            <button data-unit="day">/day</button>
+            <button data-unit="week">/week</button>
+            <button data-unit="month">/month</button>
         </nav>
 
         <main class="contrast-grid">
             <div class="card spending" id="leftCard">
-                <div class="card-header">
-                    <img src="" id="leftIcon" class="entity-icon">
-                    <div class="entity-info">
-                        <div class="mode-switcher">
-                            <button onclick="toggleMode('left', 'spending')" id="leftBtnSpending" class="active">Spending</button>
-                            <button onclick="toggleMode('left', 'income')" id="leftBtnIncome">Income</button>
-                        </div>
-                        <h2 class="entity-name" id="leftName">...</h2>
-                    </div>
+                <div class="mode-switcher">
+                    <button id="leftBtnSpending" class="active" onclick="toggleMode('left', 'spending')">Spend</button>
+                    <button id="leftBtnIncome" onclick="toggleMode('left', 'income')">In</button>
+                </div>
+                <div class="entity-header">
+                    <img id="leftIcon" class="entity-icon" src="">
+                    <span id="leftName" class="entity-name">...</span>
                 </div>
                 <div class="visualizer"><div class="bar" id="leftBar"></div></div>
-                <div class="counter-group">
-                    <div class="cumulative" id="leftCumulative">0</div>
-                    <div class="subtext" id="leftCumLabel">cumulative</div>
-                </div>
-                <div class="live-rate">
-                    <span id="leftApprox" class="approx">≈</span>
-                    <span id="leftRate">0.00</span> <small id="leftUnit">/ sec</small>
-                </div>
+                <div class="cumulative" id="leftCumulative">0</div>
+                <div class="subtext" id="leftCumLabel">cumulative</div>
+                <div class="live-rate"><span id="leftApprox">≈</span><span id="leftRate">0</span> <small id="leftUnit">/sec</small></div>
                 <div class="details-list" id="leftDetails"></div>
             </div>
 
             <div class="card income" id="rightCard">
-                <div class="card-header">
-                    <img src="" id="rightIcon" class="entity-icon">
-                    <div class="entity-info">
-                        <div class="mode-switcher">
-                            <button onclick="toggleMode('right', 'spending')" id="rightBtnSpending">Spending</button>
-                            <button onclick="toggleMode('right', 'income')" id="rightBtnIncome" class="active">Income</button>
-                        </div>
-                        <h2 class="entity-name" id="rightName">...</h2>
-                    </div>
+                <div class="mode-switcher">
+                    <button id="rightBtnSpending" onclick="toggleMode('right', 'spending')">Spend</button>
+                    <button id="rightBtnIncome" class="active" onclick="toggleMode('right', 'income')">In</button>
+                </div>
+                <div class="entity-header">
+                    <img id="rightIcon" class="entity-icon" src="">
+                    <span id="rightName" class="entity-name">...</span>
                 </div>
                 <div class="visualizer"><div class="bar" id="rightBar"></div></div>
-                <div class="counter-group">
-                    <div class="cumulative" id="rightCumulative">0</div>
-                    <div class="subtext" id="rightCumLabel">cumulative</div>
-                </div>
-                <div class="live-rate">
-                    <span id="rightApprox" class="approx">≈</span>
-                    <span id="rightRate">0.00</span> <small id="rightUnit">/ sec</small>
-                </div>
+                <div class="cumulative" id="rightCumulative">0</div>
+                <div class="subtext" id="rightCumLabel">cumulative</div>
+                <div class="live-rate"><span id="rightApprox">≈</span><span id="rightRate">0</span> <small id="rightUnit">/sec</small></div>
                 <div class="details-list" id="rightDetails"></div>
             </div>
         </main>
-
-        <div class="donate-section">
-            <h3 id="donateTitle"></h3>
-            <p id="donateDesc"></p>
-            <a href="#" class="btn-donate" id="donateBtn">☕ Buy Me a Coffee</a>
-        </div>
     </div>
     <script src="script.js"></script>
 </body>
-</html>
+                    </html>
+                                                                                                      
