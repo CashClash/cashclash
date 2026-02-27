@@ -7,12 +7,12 @@
     "income": "Income",
     "cumulative_label": "accumulated since January 1st",
     "units": {
-      "sec": "sec",
-      "min": "min",
-      "hour": "hour",
-      "day": "day",
-      "week": "week",
-      "month": "month"
+      "sec": "per sec",
+      "min": "per min",
+      "hour": "per hour",
+      "day": "per day",
+      "week": "per week",
+      "month": "per month"
     },
     "footer_created": "Created:",
     "footer_slogan": "Small tools, big dreams"
