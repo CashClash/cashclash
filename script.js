@@ -39,45 +39,34 @@ async function preloadLangNames() {
 async function loadLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
-    
     try {
         const [main, nasa, musk] = await Promise.all([
             fetch(`i18n/${lang}/main.json`).then(r => r.json()),
             fetch(`i18n/${lang}/data/nasa.json`).then(r => r.json()),
             fetch(`i18n/${lang}/data/elon-musk.json`).then(r => r.json())
         ]);
-
         financialData.left = nasa;
         financialData.right = musk;
-
         applyMainTexts(main);
         renderLangSelector();
         updateUI();
-    } catch (e) { console.error("Error loading language content", e); }
+    } catch (e) { console.error("Error loading language", e); }
 }
 
 function applyMainTexts(main) {
     document.getElementById('mainTitle').innerText = main.ui.title;
-    document.getElementById('leftCumLabel').innerText = main.ui.cumulative_label;
-    document.getElementById('rightCumLabel').innerText = main.ui.cumulative_label;
-    // Оновлюємо текст кнопок перемикача
-    document.getElementById('leftBtnSpending').innerText = main.ui.spending_short || "Spend";
-    document.getElementById('leftBtnIncome').innerText = main.ui.income_short || "In";
-    document.getElementById('rightBtnSpending').innerText = main.ui.spending_short || "Spend";
-    document.getElementById('rightBtnIncome').innerText = main.ui.income_short || "In";
+    document.querySelectorAll('.subtext').forEach(el => el.innerText = main.ui.cumulative_label);
 }
 
 function renderLangSelector() {
     const selector = document.getElementById('langSelector');
     const dropdown = document.getElementById('langDropdown');
-
     const current = langDataCache[currentLang];
     selector.innerHTML = `
         <img src="i18n/${currentLang}/${currentLang.toUpperCase()}.png">
         <span>${current ? current.shortName : currentLang}</span>
         <span class="arrow-down">▼</span>
     `;
-
     dropdown.innerHTML = availableLangs.map(l => `
         <div class="lang-item" onclick="loadLanguage('${l}')">
             <img src="i18n/${l}/${l.toUpperCase()}.png">
@@ -91,14 +80,13 @@ function toggleLangMenu(event) {
     document.getElementById('langDropdown').classList.toggle('active');
 }
 
-window.addEventListener('click', () => {
-    document.getElementById('langDropdown').classList.remove('active');
-});
+window.onclick = () => document.getElementById('langDropdown').classList.remove('active');
 
 function toggleMode(side, mode) {
     cardModes[side] = mode;
     document.querySelectorAll(`#${side}Card .mode-switcher button`).forEach(b => b.classList.remove('active'));
-    document.getElementById(`${side}Btn${mode.charAt(0).toUpperCase() + mode.slice(1)}`).classList.add('active');
+    const btnId = side === 'left' ? (mode === 'spending' ? 'leftBtnSpending' : 'leftBtnIncome') : (mode === 'spending' ? 'rightBtnSpending' : 'rightBtnIncome');
+    document.getElementById(btnId).classList.add('active');
     document.getElementById(`${side}Card`).className = `card ${mode}`;
     updateUI();
 }
@@ -106,7 +94,7 @@ function toggleMode(side, mode) {
 function updateUI() {
     ["left", "right"].forEach(side => {
         const data = financialData[side];
-        if (!data) return;
+        if (!data || !data.data[currentYear]) return;
         const mode = cardModes[side];
         const container = document.getElementById(`${side}Details`);
         const breakdown = data.data[currentYear][mode].breakdown;
@@ -119,33 +107,28 @@ function updateUI() {
 function startTickers() {
     const update = () => {
         const now = new Date();
-        const startOfSelectedYear = new Date(parseInt(currentYear), 0, 1);
-        let secondsPassed = (now - startOfSelectedYear) / 1000;
+        const startOfYear = new Date(parseInt(currentYear), 0, 1);
+        let secondsPassed = (now - startOfYear) / 1000;
 
         ["left", "right"].forEach(side => {
             const data = financialData[side];
             if (!data || !data.data[currentYear]) return;
-            
             const mode = cardModes[side];
             const baseTotal = data.data[currentYear][mode].total;
             const basePerSec = baseTotal / multipliers.year;
 
-            let displayCumulative = 0;
+            let cumulative = (currentYear === "2026") ? secondsPassed * basePerSec : baseTotal;
             if (currentYear === "2026") {
                 drift[side] += (Math.random() - 0.5) * 0.002;
                 drift[side] = Math.max(0.95, Math.min(drift[side], 1.05));
-                displayCumulative = secondsPassed * basePerSec;
-            } else {
-                drift[side] = 1;
-                displayCumulative = baseTotal;
-            }
+            } else { drift[side] = 1; }
 
-            const currentRate = basePerSec * drift[side] * multipliers[currentTimeUnit];
+            const rate = basePerSec * drift[side] * multipliers[currentTimeUnit];
             
             document.getElementById(`${side}Name`).innerText = data.name;
             document.getElementById(`${side}Icon`).src = data.image;
-            document.getElementById(`${side}Rate`).innerText = (['sec', 'min'].includes(currentTimeUnit)) ? rateFormatter.format(currentRate) : wholeFormatter.format(currentRate);
-            document.getElementById(`${side}Cumulative`).innerText = wholeFormatter.format(displayCumulative);
+            document.getElementById(`${side}Rate`).innerText = (['sec', 'min'].includes(currentTimeUnit)) ? rateFormatter.format(rate) : wholeFormatter.format(rate);
+            document.getElementById(`${side}Cumulative`).innerText = wholeFormatter.format(cumulative);
             document.getElementById(`${side}Unit`).innerText = `/ ${currentTimeUnit}`;
             document.getElementById(`${side}Approx`).style.visibility = (currentYear === "2026") ? "visible" : "hidden";
 
@@ -158,27 +141,26 @@ function startTickers() {
 }
 
 function setupEventListeners() {
-    document.getElementById('timeTabs').onclick = (e) => {
+    document.getElementById('timeTabs').addEventListener('click', (e) => {
         if (e.target.tagName === 'BUTTON') {
             document.querySelectorAll('#timeTabs button').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
             currentTimeUnit = e.target.dataset.unit;
         }
-    };
-    document.getElementById('yearSelector').onclick = (e) => {
+    });
+    document.getElementById('yearSelector').addEventListener('click', (e) => {
         if (e.target.tagName === 'BUTTON') {
             document.querySelectorAll('#yearSelector button').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
             currentYear = e.target.innerText;
             updateUI();
         }
-    };
+    });
 }
 
 function applyInitialTheme() {
     const t = localStorage.getItem('theme') || 'dark';
     document.body.setAttribute('data-theme', t);
-    document.getElementById('themeToggle').innerText = t === 'dark' ? '🌙' : '☀️';
 }
 
 function toggleTheme() {
@@ -186,7 +168,6 @@ function toggleTheme() {
     const next = current === 'dark' ? 'light' : 'dark';
     document.body.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
-    document.getElementById('themeToggle').innerText = next === 'dark' ? '🌙' : '☀️';
 }
 
 init();
