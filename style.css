@@ -157,27 +157,32 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 
 /* LIVE RATE SECTION - ВИПРАВЛЕНО */
 .live-rate .rate-main {
-    display: flex;
-    justify-content: center; /* Центруємо весь вміст */
-    align-items: baseline;   /* Вирівнюємо символ і цифри по нижній лінії тексту */
-    width: 100%;             /* Розтягуємо на всю ширину картки */
+    display: flex; /* Змінюємо на flex для кращого контролю */
+    align-items: center;
+    justify-content: center;
+    min-width: 320px; /* Трохи збільшуємо запас */
     font-family: 'Inter', sans-serif;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum";
 }
 
+/* Фіксуємо сам символ approx */
 .approx {
-    /* Прибираємо фіксовану ширину, залишаємо просто відступ */
-    width: auto; 
-    margin-right: 6px;
+    display: inline-block;
+    width: 24px; /* Чітко задана ширина */
+    flex-shrink: 0; /* Щоб він не стискався */
+    text-align: right;
+    margin-right: 8px;
     opacity: 0.6;
+    font-family: 'Inter', sans-serif; /* Теж Inter, щоб не було конфліктів */
 }
 
+/* Фіксуємо контейнер тільки для цифр */
 [id$="Rate"] {
-    /* Прибираємо min-width або ставимо таку, щоб вона не перекошувала центр */
-    min-width: 0; 
-    text-align: center; /* Повертаємо центр для самих цифр */
+    display: inline-block;
+    text-align: left; /* Цифри ростуть вправо, але стоять на місці зліва */
+    min-width: 140px; /* Достатньо для чисел типу 4,424.27 */
 }
 
 .cumulative { 
