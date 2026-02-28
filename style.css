@@ -26,12 +26,7 @@ body { background-color: var(--bg-color); color: var(--text-main); display: flex
 
 header { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; }
 
-h1 { 
-    font-size: 18px; 
-    color: var(--text-main); 
-    letter-spacing: 4px;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-}
+h1 { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
 
 /* Language & Theme Wrappers */
 .tool-wrapper {
@@ -302,6 +297,12 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 /* Desktop Adaptivity */
 /* Desktop Adaptivity - Збільшуємо все для моніторів */
 @media (min-width: 900px) {
+    h1 { 
+    font-size: 18px; 
+    color: var(--text-main); 
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
     .app-container { padding: 20px; gap: 20px; }
     .contrast-grid { gap: 20px; }
     .card { padding: 25px; } /* Трохи більше простору всередині карти */
