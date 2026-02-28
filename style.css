@@ -174,7 +174,34 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 .mode-switcher button.active { background: var(--card-bg); color: var(--text-main); border-radius: 4px; }
 
 .details-list { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px; }
-.detail-item { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-dim); }
+.detail-item { 
+    display: flex; 
+    flex-direction: column; /* Текст зверху, смужка знизу */
+    gap: 4px;
+    font-size: 10px; 
+    color: var(--text-dim); 
+    padding: 4px 0;
+}
+
+.detail-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.mini-progress-bg {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.mini-progress-bar {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease-in-out;
+}
 
 /* FOOTER & DONATE */
 .app-footer { margin-top: 20px; display: flex; flex-direction: column; gap: 20px; padding-bottom: 40px; }
@@ -253,6 +280,7 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
         gap: 10px;
         padding: 4px 0; 
     }
+    .mini-progress-bg { height: 5px; }
 
     /* Футер та Донат */
     .donate-card h3 { font-size: 22px; }
