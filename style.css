@@ -100,7 +100,7 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 .entity-name { font-size: 13px; font-weight: bold; }
 
 .visualizer {
-    height: 100px;
+    height: 200px;
     background: rgba(255, 255, 255, 0.02); /* Ледь помітна підкладка */
     margin: 15px 0;
     display: flex;
