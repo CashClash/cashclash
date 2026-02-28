@@ -142,6 +142,7 @@ function updateUI() {
     });
 }
 
+// 1. Оновлена допоміжна функція (додай її замість старої calculateAbsoluteMax)
 let globalMaxes = { income: 0, spending: 0 };
 
 function calculateGlobalMaxes() {
@@ -152,21 +153,6 @@ function calculateGlobalMaxes() {
         Object.keys(data.data).forEach(year => {
             globalMaxes.income = Math.max(globalMaxes.income, data.data[year].income.total);
             globalMaxes.spending = Math.max(globalMaxes.spending, data.data[year].spending.total);
-        });
-    });
-}
-
-// 1. Оновлена допоміжна функція (додай її замість старої calculateAbsoluteMax)
-let globalMaxes = { income: 0, spending: 0 };
-
-function calculateGlobalMaxes() {
-    globalMaxes = { income: 0, spending: 0 }; 
-    ["left", "right"].forEach(side => {
-        const data = financialData[side];
-        if (!data) return;
-        Object.keys(data.data).forEach(year => {
-            globalMaxes.income = Math.max(globalMaxes.income, data.data[year].income.total || 0);
-            globalMaxes.spending = Math.max(globalMaxes.spending, data.data[year].spending.total || 0);
         });
     });
 }
