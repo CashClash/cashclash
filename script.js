@@ -171,8 +171,35 @@ function startTickers() {
             const approxEl = document.getElementById(`${side}Approx`);
             if(approxEl) approxEl.style.visibility = (currentYear === "2026") ? "visible" : "hidden";
 
-            const h = (basePerSec / 10000) * 100;
-            document.getElementById(`${side}Bar`).style.height = `${Math.min(Math.max(h, 10), 95)}%`;
+            const visualizer = document.getElementById(`${side}Visualizer`);
+            if (visualizer) {
+                if (visualizer.children.length !== 12) {
+                    visualizer.innerHTML = ''; 
+                    for (let i = 0; i < 12; i++) {
+                        const col = document.createElement('div');
+                        col.className = 'bar-column';
+                        visualizer.appendChild(col);
+                    }
+                }
+
+                const columns = visualizer.children;
+                const currentMonth = new Date().getMonth();
+
+                for (let i = 0; i < 12; i++) {
+                    const col = columns[i];
+                    const monthFactor = (i + 1) / 12;
+                    const targetHeight = (basePerSec / 10000) * 100 * monthFactor;
+                    
+                    col.style.height = `${Math.min(Math.max(targetHeight, 5), 95)}%`;
+                    col.style.backgroundColor = (mode === 'spending') ? 'var(--red-accent)' : 'var(--green-accent)';
+                    
+                    if (i <= currentMonth || currentYear !== "2026") {
+                        col.classList.add('active');
+                    } else {
+                        col.classList.remove('active');
+                    }
+                }
+            }
         });
         requestAnimationFrame(update);
     };
