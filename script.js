@@ -368,49 +368,57 @@ function setupEventListeners() {
 }
 
 async function takeScreenshot() {
-    // Вибираємо весь контейнер, щоб був гарний повний кадр
-    const element = document.querySelector('.app-container');
     const btn = event.currentTarget;
-    
-    // Візуальний ефект завантаження
     const originalContent = btn.innerHTML;
-    btn.innerHTML = "⌛"; 
+    btn.innerHTML = "⌛";
+
+    // Вибираємо контейнер з картками
+    const element = document.querySelector('.contrast-grid'); 
 
     try {
         const canvas = await html2canvas(element, {
-            useCORS: true,           // Дозволяє брати картинки з іншого домену
-            allowTaint: false,       // Захищає від помилок безпеки
+            useCORS: true,
+            allowTaint: false, // Для мобільних краще false
+            logging: true,     // Увімкни, щоб бачити помилки в консолі
             backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg-color'),
-            scale: 2,                // Робимо картинку чіткою
-            logging: false,
-            // Ігноруємо кнопки та підказки, щоб вони не заважали на фото
-            ignoreElements: (el) => {
-                return el.classList.contains('info-tooltip-wrapper') || 
-                       el.classList.contains('tool-wrapper');
+            scale: 2,          // Золота середина якості
+            imageTimeout: 0,   // Чекати до переможного кінця завантаження картинок
+            onclone: (clonedDoc) => {
+                // Приховуємо все зайве на копії документа перед знімком
+                const toHide = clonedDoc.querySelectorAll('.info-tooltip-wrapper, .selector-arrow');
+                toHide.forEach(el => el.style.display = 'none');
             }
         });
 
-        const image = canvas.toDataURL("image/png");
+        const image = canvas.toDataURL("image/png", 1.0);
 
-        // Спроба відправити файл (для мобільних)
+        // Перевіряємо Share API
         if (navigator.share && navigator.canShare) {
             const blob = await (await fetch(image)).blob();
-            const file = new File([blob], 'contrast_live.png', { type: 'image/png' });
-            await navigator.share({
-                files: [file],
-                title: 'Contrast Live',
-                text: 'Дивись на цю різницю!'
-            });
+            const file = new File([blob], 'financial_contrast.png', { type: 'image/png' });
+            
+            try {
+                await navigator.share({
+                    files: [file],
+                    title: 'Contrast Live',
+                    text: 'Дивись на цю різницю!'
+                });
+            } catch (shareErr) {
+                // Якщо юзер скасував "поділитися" — нічого не робимо
+                console.log("Юзер відмінив share");
+            }
         } else {
-            // Звичайне завантаження (для ПК)
+            // Резервний метод: Скачування
             const link = document.createElement('a');
-            link.download = 'financial_contrast.png';
+            link.download = 'financial_snapshot.png';
             link.href = image;
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
         }
     } catch (err) {
-        console.error("Скріншот не вдався:", err);
-        alert("Не вдалося створити знімок через захист зображень. Спробуйте стандартний скріншот телефона.");
+        console.error("Деталі помилки:", err);
+        alert("Помилка створення знімка. Спробуйте оновити сторінку або скористайтеся стандартним скріншотом.");
     } finally {
         btn.innerHTML = originalContent;
     }
