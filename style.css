@@ -247,6 +247,30 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     min-width: 0 !important; /* Прибираємо жорстке обмеження */
     white-space: nowrap;
 }
+/* Анімація червоної пульсації (тінь та колір тексту) */
+@keyframes redPulse {
+    0% {
+        color: var(--text-main); /* Початковий колір тексту (білий) */
+        text-shadow: 0 0 5px rgba(255, 77, 77, 0); /* Без тіні */
+    }
+    50% {
+        color: var(--red-accent); /* Текст стає червоним */
+        /* Червоне світіння навколо цифр */
+        text-shadow: 0 0 15px rgba(255, 77, 77, 0.8), 0 0 30px rgba(255, 77, 77, 0.4);
+    }
+    100% {
+        color: var(--text-main); /* Повертається до початкового */
+        text-shadow: 0 0 5px rgba(255, 77, 77, 0);
+    }
+}
+
+/* Клас, який запускає анімацію */
+.cumulative.bleeding {
+    animation: redPulse 1.5s infinite ease-in-out;
+    /* Гарантуємо, що tabular-nums збережуться */
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+}
 .rate-divider {
     width: 30px;
     height: 2px;
