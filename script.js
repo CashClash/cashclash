@@ -368,44 +368,49 @@ function setupEventListeners() {
 }
 
 async function takeScreenshot() {
-    const element = document.querySelector('.contrast-grid');
+    // Вибираємо весь контейнер, щоб був гарний повний кадр
+    const element = document.querySelector('.app-container');
     const btn = event.currentTarget;
     
-    // Візуальний відгук: міняємо іконку на час обробки
+    // Візуальний ефект завантаження
     const originalContent = btn.innerHTML;
-    btn.innerHTML = "⏳";
+    btn.innerHTML = "⌛"; 
 
     try {
         const canvas = await html2canvas(element, {
+            useCORS: true,           // Дозволяє брати картинки з іншого домену
+            allowTaint: false,       // Захищає від помилок безпеки
             backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg-color'),
-            scale: 2, // Вища якість
+            scale: 2,                // Робимо картинку чіткою
             logging: false,
-            useCORS: true // Щоб картинки героїв (Bezos, Musk) не блокувалися
+            // Ігноруємо кнопки та підказки, щоб вони не заважали на фото
+            ignoreElements: (el) => {
+                return el.classList.contains('info-tooltip-wrapper') || 
+                       el.classList.contains('tool-wrapper');
+            }
         });
 
-        // Перетворюємо в картинку
         const image = canvas.toDataURL("image/png");
 
-        // Якщо браузер підтримує "Share API" (мобільні), пропонуємо поділитися файлом
+        // Спроба відправити файл (для мобільних)
         if (navigator.share && navigator.canShare) {
             const blob = await (await fetch(image)).blob();
-            const file = new File([blob], 'contrast_snapshot.png', { type: 'image/png' });
-            
+            const file = new File([blob], 'contrast_live.png', { type: 'image/png' });
             await navigator.share({
                 files: [file],
                 title: 'Contrast Live',
-                text: 'Дивись, як змінюються статки багатіїв у реальному часі!'
+                text: 'Дивись на цю різницю!'
             });
         } else {
-            // Якщо десктоп — просто скачуємо файл
+            // Звичайне завантаження (для ПК)
             const link = document.createElement('a');
-            link.download = `contrast_${currentYear}.png`;
+            link.download = 'financial_contrast.png';
             link.href = image;
             link.click();
         }
     } catch (err) {
-        console.error("Помилка скріншота:", err);
-        alert("Не вдалося створити знімок. Спробуйте звичайний скріншот екрана.");
+        console.error("Скріншот не вдався:", err);
+        alert("Не вдалося створити знімок через захист зображень. Спробуйте стандартний скріншот телефона.");
     } finally {
         btn.innerHTML = originalContent;
     }
