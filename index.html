@@ -6,6 +6,7 @@
     <title>Contrast Live</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body data-theme="dark">
     <div class="app-container">
@@ -17,6 +18,9 @@
 
             <h1 id="mainTitle" style="cursor: pointer;" onclick="location.reload()">CONTRAST</h1>
 
+            <div class="tool-wrapper" onclick="takeScreenshot()">
+                <button class="theme-btn">📸</button>
+            </div>
             <div class="tool-wrapper" onclick="toggleTheme()">
                 <button id="themeToggle" class="theme-btn">🌙</button>
             </div>
