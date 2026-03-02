@@ -1,7 +1,7 @@
 {
       "id": "elon-musk",
       "name": "ELON MUSK",
-      "image" : "images/"elon-musk.jpeg",
+      "image" : "images/elon-musk.jpeg",
       "category": "person",
       "color": "#00ff88",
       "data": {
