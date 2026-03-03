@@ -433,7 +433,7 @@ async function takeScreenshot() {
         }
     } catch (err) {
         console.error("Screenshot error:", err);
-        alert(main.ui.error_screenshot);
+        alert(window.uiLabels.errorScreenshot || "Error creating screenshot.");
     } finally {
         btn.innerHTML = originalContent;
     }
