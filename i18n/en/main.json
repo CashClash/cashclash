@@ -8,6 +8,7 @@
     "spent_label" : "spent since January 1",
     "loss_label" : "lost since January 1",
     "share_text": "Just look at this gap in the numbers! 🤯💸",
+    "error_screenshot" : "Screenshot failed. Please try refreshing the page.",
     "units": {
       "sec": "per sec",
       "min": "per min",
