@@ -416,10 +416,9 @@ async function takeScreenshot() {
                 await navigator.share({
                     files: [file],
                     title: 'CashClash',
-                    text: window.uiLabels.shareText + " https://cashclash.github.io/"
+                    text: `${window.uiLabels.shareText}\nhttps://cashclash.github.io/`
                 });
             } catch (shareErr) {
-                // Якщо юзер скасував "поділитися" — нічого не робимо
                 console.log("Юзер відмінив share");
             }
         } else {
