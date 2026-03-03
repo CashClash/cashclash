@@ -117,7 +117,8 @@ function applyMainTexts(main) {
         shareText: main.ui.share_text,
         income: main.ui.income_label,
         spent: main.ui.spent_label,
-        loss: main.ui.loss_label
+        loss: main.ui.loss_label,
+        errorScreenshot: main.ui.error_screenshot
     };
 
     document.getElementById('leftBtnSpending').innerText = main.ui.spending;
@@ -431,8 +432,8 @@ async function takeScreenshot() {
             document.body.removeChild(link);
         }
     } catch (err) {
-        console.error("Деталі помилки:", err);
-        alert("Помилка створення знімка. Спробуйте оновити сторінку або скористайтеся стандартним скріншотом.");
+        console.error("Screenshot error:", err);
+        alert(main.ui.error_screenshot);
     } finally {
         btn.innerHTML = originalContent;
     }
