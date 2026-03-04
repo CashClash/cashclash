@@ -3,8 +3,7 @@
   "name": "NETFLIX",
   "image": "images/netflix.svg",
   "category": "корпорація",
-  "color": "#ff4d4d",
-  "data": {
+    "data": {
     "2026": {
       "income": {
         "total": 51200000000,
