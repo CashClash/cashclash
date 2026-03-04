@@ -569,7 +569,7 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     .visualizer { height: 200px; }
 
     /* Назви (NASA / ELON MUSK) */
-    .entity-name { font-size: 20px; } 
+    .entity-name { font-size: 20px; font-weight: 700; text-transform: uppercase; } 
     .entity-icon { width: 40px; height: 40px; }
 
     .subtext { font-size: 11px; }
