@@ -1,7 +1,7 @@
 {
   "id": "apple",
   "name": "Apple",
-  "image": "images/Apple.svg",
+  "image": "images/apple.svg",
   "category": "corporation",
   "data": {
     "2026": {
