@@ -1,7 +1,7 @@
 {
   "id": "los-angeles",
   "name": "Los Angeles",
-  "image": "images/Los-Angeles.svg",
+  "image": "images/los-angeles.svg",
   "category": "city",
   "data": {
     "2026": {
