@@ -1,7 +1,7 @@
 {
   "id": "kyiv",
   "name": "Kyiv",
-  "image": "images/Kyiv.svg",
+  "image": "images/kyiv.svg",
   "category": "city",
   "data": {
     "2026": {
