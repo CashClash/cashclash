@@ -1,7 +1,7 @@
 {
   "id": "nhs",
   "name": "National Health Service (NHS)",
-  "image": "images/NHS.svg",
+  "image": "images/nhs.svg",
   "category": "department",
   "data": {
     "2026": {
