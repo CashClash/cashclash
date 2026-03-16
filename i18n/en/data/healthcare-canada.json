@@ -1,0 +1,150 @@
+{
+      "id": "healthcare-canada",
+      "name": "Healthcare Canada",
+      "image": "images/healthcare-canada.png",
+      "category": "department",
+      "data": {
+        "2026": {
+          "income": {
+            "total": 415300000000,
+            "sources": [
+              "Provincial and Territorial General Funds",
+              "Federal Canada Health Transfer (Guaranteed 5% increase)",
+              "Private Insurance and Employer Health Plans",
+              "Out-of-Pocket Household Expenditures"
+            ],
+            "breakdown": {
+              "public_sector": {
+                "name": "Public Sector Funding",
+                "percent": 71.0
+              },
+              "private_sector": {
+                "name": "Private Sector (Insurance and Corporate)",
+                "percent": 29.0
+              }
+            }
+          },
+          "spending": {
+            "total": 415300000000,
+            "breakdown": {
+              "hospitals_and_infrastructure": {
+                "name": "Hospitals and Specialized Clinical Facilities",
+                "percent": 27.5
+              },
+              "pharmaceuticals": {
+                "name": "Drugs and Advanced GLP-1 Therapies",
+                "percent": 18.2
+              },
+              "physician_services": {
+                "name": "Physician and Professional Services",
+                "percent": 14.5
+              },
+              "aged_care": {
+                "name": "Long-term Care and Home Health Services",
+                "percent": 12.8
+              },
+              "digital_health_admin": {
+                "name": "Digital Transformation and Public Health Admin",
+                "percent": 27.0
+              }
+            }
+          },
+          "methodology": "2026 forecast calculated using a weighted CAGR of 5.1% applied to 2025 base. Income includes a 5.0% guaranteed increase in CHT as per Finance Canada and an 8.3% projected surge in private sector medical trend rates. Spending highlights a shift towards pharmaceutical costs due to high-cost specialty drugs (GLP-1s) and expanded Pharmacare/Dental Care rollout. Total adjusted to include increased capital investments in hospital infrastructure as per 2025-26 departmental plans. All figures in CAD."
+        },
+        "2025": {
+          "income": {
+            "total": 395100000000,
+            "sources": [
+              "Provincial and Territorial Health Budgets",
+              "Federal Canada Health Transfer (CHT)",
+              "Private Insurance Premiums",
+              "Out-of-Pocket Payments"
+            ],
+            "breakdown": {
+              "public_sector": {
+                "name": "Public Sector Funding",
+                "percent": 71.5
+              },
+              "private_sector": {
+                "name": "Private Sector Funding",
+                "percent": 28.5
+              }
+            }
+          },
+          "spending": {
+            "total": 395100000000,
+            "breakdown": {
+              "hospitals": {
+                "name": "Hospitals and Specialized Facilities",
+                "percent": 27.2
+              },
+              "drugs": {
+                "name": "Drugs and Pharmaceuticals",
+                "percent": 17.5
+              },
+              "physicians": {
+                "name": "Physician Services",
+                "percent": 14.8
+              },
+              "long_term_care": {
+                "name": "Long-term Care and Home Care",
+                "percent": 12.1
+              },
+              "other": {
+                "name": "Capital Investment and Administration",
+                "percent": 28.4
+              }
+            }
+          },
+          "methodology": "Figures represent 2025 estimated health expenditures based on Provincial/Territorial budgets and the 5.2% increase in the Canada Health Transfer (CHT). Income reflects total funding pools where public funding (71.5%) remains the dominant source. Spending shifts reflect increased investments in long-term care and pharmaceutical subsidies (Pharmacare rollout initial phases). All values in CAD."
+        },
+        "2024": {
+          "income": {
+            "total": 372000000000,
+            "sources": [
+              "Provincial and Territorial Governments",
+              "Private Sector (Insurance and Out-of-pocket)",
+              "Federal Direct Government Health Expenditures",
+              "Municipal Governments",
+              "Social Security Funds"
+            ],
+            "breakdown": {
+              "public_sector": {
+                "name": "Public Sector Funding",
+                "percent": 71.2
+              },
+              "private_sector": {
+                "name": "Private Sector Funding",
+                "percent": 28.8
+              }
+            }
+          },
+          "spending": {
+            "total": 372000000000,
+            "breakdown": {
+              "hospitals": {
+                "name": "Hospitals",
+                "percent": 26.8
+              },
+              "drugs": {
+                "name": "Prescription and Non-prescription Drugs",
+                "percent": 16.9
+              },
+              "physicians": {
+                "name": "Physician Services",
+                "percent": 14.3
+              },
+              "other_institutions": {
+                "name": "Long-term Care and Other Institutions",
+                "percent": 11.5
+              },
+              "administration_other": {
+                "name": "Public Health, Administration and Other",
+                "percent": 30.5
+              }
+            }
+          },
+          "methodology": "Data derived from CIHI National Health Expenditure Trends 2024 report. Income is treated as total funding available, where public sector contributions (71.2%) include federal transfers like CHT and provincial budgets, while private sector (28.8%) includes insurance and out-of-pocket costs. Spending breakdown follows CIHI's 'Use of Funds' classification. All figures in CAD."
+        }
+      }
+    }
