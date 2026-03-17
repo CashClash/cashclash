@@ -1,7 +1,7 @@
 {
   "id": "disney",
   "name": "Disney",
-  "image": "images/disney.svg",
+  "image": "images/disney.png",
   "category": "corporation",
   "data": {
     "2026": {
