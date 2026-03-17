@@ -153,14 +153,15 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 
 .year-badge-inside {
     position: absolute;
-    left: 8px;
-    top: 8px;
-    font-size: 10px;
+    left: 10px;       /* Відступ від лівого краю графіка */
+    bottom: 10px;     /* Притискаємо до низу графіка */
+    font-size: 12px;
     font-weight: 800;
-    opacity: 0.5;
+    opacity: 0.3;     /* Робимо його фоновим, щоб не заважав цифрам */
     pointer-events: none;
-    z-index: 5;
-    color: var(--text-dim);
+    z-index: 1;
+    color: var(--text-main);
+    text-transform: uppercase;
 }
 
 .visualizer {
@@ -191,11 +192,13 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     50% { opacity: 0.4; transform: scale(1.2); }
     100% { opacity: 1; transform: scale(1); }
 }
-.name-wrapper .name-wrapper {
-    min-height: 50px; /* Достатньо для 2 рядків тексту */
+.name-wrapper {
+    text-align: center;
+    width: 100%;
+    min-height: 48px; /* Висота для 2-3 рядків тексту */
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
 }
 .entity-selector {
     display: inline-flex;
@@ -544,21 +547,23 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 /* Контейнер підказки */
 .info-tooltip-wrapper {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 0;      /* Притискаємо до самого верху */
+    right: 0;    /* Притискаємо до самого краю */
     z-index: 10;
 }
 
 .info-icon {
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
     background: var(--nav-btn-bg);
     border: 1px solid var(--border);
-    border-radius: 50%;
+    /* Робимо скруглення кутів тільки для нижнього лівого краю, 
+       щоб іконка органічно вписалася в кут картки */
+    border-radius: 0 15px 0 8px; 
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-dim);
     cursor: help;
     transition: 0.2s;
@@ -599,10 +604,13 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 /* Фікс для того, щоб картинка і ім'я не з'їжджали вбік */
 .header-main-info {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    flex-direction: column; /* Ставимо іконку над назвою або в ряд */
+    align-items: center;
+    gap: 8px;
     width: 100%;
-    min-height: 64px; /* ЦЕ ВИРІВНЯЄ ГРАФІКИ ПО ОДНІЙ ЛІНІЇ */
+    /* Встановлюємо мінімальну висоту для всього блоку НАД графіком */
+    min-height: 110px; 
+    justify-content: flex-end; /* Вирівнюємо назви по нижньому краю, щоб графіки почалися одночасно */
 }
 
 /* Пульсація при натисканні (опціонально) */
