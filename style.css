@@ -162,10 +162,12 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     z-index: 1;
     color: var(--text-main);
     text-transform: uppercase;
+    z-index: 0;
 }
 
 .visualizer {
     position: relative; /* Щоб рік всередині притиснувся до лівого краю */
+    overflow: hidden;
     height: 100px;
     background: rgba(255, 255, 255, 0.02);
     margin: 15px 0;
@@ -547,8 +549,8 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 /* Контейнер підказки */
 .info-tooltip-wrapper {
     position: absolute;
-    top: 0;      /* Притискаємо до самого верху */
-    right: 0;    /* Притискаємо до самого краю */
+    top: 0;
+    right: 0;
     z-index: 10;
 }
 
@@ -559,7 +561,7 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     border: 1px solid var(--border);
     /* Робимо скруглення кутів тільки для нижнього лівого краю, 
        щоб іконка органічно вписалася в кут картки */
-    border-radius: 0 15px 0 8px; 
+    border-radius: 0 15px 0 10px; 
     display: flex;
     align-items: center;
     justify-content: center;
