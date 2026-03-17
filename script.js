@@ -77,27 +77,50 @@ async function loadLanguage(lang) {
     } catch (e) { console.error("Error loading language/data", e); }
 }
 
-function renderEntityMenus() {
-    // Групуємо сутності за категоріями для "гармошки"
+function renderEntityMenus(filterText = '', side = null) {
     const categories = {};
-    Object.values(entityCache).forEach(entity => {
+    
+    // Фільтруємо кеш сутностей
+    const filteredEntities = Object.values(entityCache).filter(e => 
+        e.name.toLowerCase().includes(filterText.toLowerCase()) || 
+        e.category.toLowerCase().includes(filterText.toLowerCase())
+    );
+
+    filteredEntities.forEach(entity => {
         if (!categories[entity.category]) categories[entity.category] = [];
         categories[entity.category].push(entity);
     });
 
-    ['left', 'right'].forEach(side => {
-        const dropdown = document.getElementById(`${side}EntityMenu`);
-        dropdown.innerHTML = Object.keys(categories).map(cat => `
+    const sides = side ? [side] : ['left', 'right'];
+
+    sides.forEach(s => {
+        const dropdown = document.getElementById(`${s}EntityMenu`);
+        
+        // Додаємо поле пошуку, якщо це перший рендер або повне оновлення
+        const searchHTML = `<input type="text" class="menu-search" placeholder="Search..." 
+                            onclick="event.stopPropagation()" 
+                            oninput="renderEntityMenus(this.value, '${s}')">`;
+
+        const contentHTML = Object.keys(categories).map(cat => `
             <div class="category-group">
                 <div class="category-name">${cat}</div>
                 ${categories[cat].map(e => `
-                    <div class="entity-item" onclick="selectEntity('${side}', '${e.id}', event)">
-                        <img src="${e.image}">
+                    <div class="entity-item" onclick="selectEntity('${s}', '${e.id}', event)">
+                        <img src="${e.image}" loading="lazy">
                         <span>${e.name}</span>
                     </div>
                 `).join('')}
             </div>
         `).join('');
+
+        // Якщо ми просто фільтруємо, не перемальовуємо інпут, щоб не втрачати фокус
+        if (filterText !== '') {
+            // Оновлюємо лише контент нижче інпуту
+            const listContainer = dropdown.querySelector('.menu-list-container') || dropdown;
+            listContainer.innerHTML = contentHTML;
+        } else {
+            dropdown.innerHTML = searchHTML + `<div class="menu-list-container">${contentHTML}</div>`;
+        }
     });
 }
 
