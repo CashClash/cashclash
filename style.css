@@ -172,7 +172,21 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     100% { opacity: 1; transform: scale(1); }
 }
 .name-wrapper { display: flex; align-items: center; gap: 8px; }
-.selector-arrow { font-size: 10px; opacity: 0.5; }
+.entity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Центруємо весь блок */
+    gap: 8px;               /* Фіксована відстань між текстом і стрілкою */
+    cursor: pointer;
+    width: fit-content;      /* Блок підлаштовується під контент */
+    margin: 0 auto;         /* Центруємо сам блок у картці */
+}
+.selector-arrow {
+    font-size: 12px;
+    color: var(--text-dim);
+    flex-shrink: 0;         /* Щоб стрілка не стискалася */
+    margin-top: 4px;        /* Трохи підрівняти по висоті, якщо треба */
+}
 
 .entity-dropdown {
     position: absolute;
@@ -237,7 +251,13 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     /* Сяйво, яке адаптується під форму логотипа */
     filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.9));
 }
-.entity-name { font-size: clamp(10px, 3vw, 13px); font-weight: bold; text-transform: uppercase;}
+.entity-name {
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.2;
+    display: inline;         /* Щоб текст не займав весь рядок */
+}
 
 .visualizer {
     height: 100px;
@@ -615,7 +635,7 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     .visualizer { height: 200px; }
 
     /* Назви (NASA / ELON MUSK) */
-    .entity-name { font-size: 20px; font-weight: 700; text-transform: uppercase; } 
+    .entity-name { font-size: 20px; font-weight: 700; text-transform: uppercase; display: inline;} 
 
     .subtext { font-size: 11px; }
 
