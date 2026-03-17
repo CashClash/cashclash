@@ -135,15 +135,19 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 .card-header:hover { background: rgba(255,255,255,0.05); }
 .year-badge {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    bottom: 8px;   /* Тепер він знизу */
+    right: 8px;    /* У правому куті графіка */
     font-size: 10px;
     font-weight: 800;
-    padding: 3px 8px;
+    padding: 2px 6px;
     border-radius: 4px;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
     z-index: 5;
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 .year-badge.live-active {
     color: var(--red-accent);
@@ -195,7 +199,7 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     100% { opacity: 1; transform: scale(1); }
 }
 .name-wrapper {
-    text-align: center;
+    text-align: left;
     width: 100%;
     min-height: 48px; /* Висота для 2-3 рядків тексту */
     display: flex;
@@ -285,7 +289,7 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.9));
 }
 .entity-name {
-    font-size: 20px;
+    font-size: clamp(16px, 4vw, 20px);
     font-weight: 700;
     text-transform: uppercase;
     display: inline;         /* Текст іде потоком */
@@ -605,13 +609,13 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 /* Фікс для того, щоб картинка і ім'я не з'їжджали вбік */
 .header-main-info {
     display: flex;
-    flex-direction: column; /* Ставимо іконку над назвою або в ряд */
+    flex-direction: row; /* Повертаємо в ряд */
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     width: 100%;
-    /* Встановлюємо мінімальну висоту для всього блоку НАД графіком */
-    min-height: 110px; 
-    justify-content: flex-end; /* Вирівнюємо назви по нижньому краю, щоб графіки почалися одночасно */
+    min-height: 80px; /* Фіксована висота, щоб графіки були на одному рівні */
+    justify-content: flex-start;
+    padding: 0 5px;
 }
 
 /* Пульсація при натисканні (опціонально) */
@@ -650,10 +654,9 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
     }
     .year-badge {
-        font-size: 12px;
-        padding: 4px 10px;
-        top: 95px;
-        right: 15px;
+        font-size: 11px;
+        bottom: 12px;
+        right: 12px;
     }
 .header-main-info {
         display: flex;
