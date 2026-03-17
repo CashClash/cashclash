@@ -267,6 +267,27 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     }
 }
 
+.menu-search {
+    width: calc(100% - 20px);
+    margin: 10px;
+    padding: 8px 12px;
+    background: var(--nav-btn-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-size: 13px;
+    outline: none;
+}
+
+.menu-search:focus {
+    border-color: var(--green-accent);
+}
+
+.menu-list-container {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
 .counter-group { text-align: center; margin-bottom: 5px; }
 
 .subtext { font-size: 8px; color: var(--text-dim); text-transform: uppercase; }
