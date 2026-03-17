@@ -473,11 +473,10 @@ async function takeScreenshot(event) {
         });
 
         const image = canvas.toDataURL("image/png", 1.0);
-
-        // Перевіряємо Share API
         const blob = await (await fetch(image)).blob();
         const file = new File([blob], 'financial_contrast.png', { type: 'image/png' });
 
+        // Спочатку створюємо файл, а потім перевіряємо, чи можна його поширити
         if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
             try {
                 await navigator.share({
