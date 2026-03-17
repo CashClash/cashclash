@@ -108,7 +108,7 @@ function renderEntityMenus(filterText = '', side = null) {
                 ${categories[cat].map(e => `
                   <div class="entity-item" onclick="selectEntity('${s}', '${e.id}', event)">
                       <div class="entity-icon-wrapper">
-                          <img src="${e.image}" loading="lazy" class="entity-icon">
+                          <img src="../${e.image}" loading="lazy" class="entity-icon">
                       </div>
                       <span>${e.name}</span>
                   </div>
@@ -308,7 +308,7 @@ function startTickers() {
             const rate = basePerSec * drift[side] * multipliers[currentTimeUnit];
             
             document.getElementById(`${side}Name`).innerText = data.name;
-            document.getElementById(`${side}Icon`).src = data.image;
+            document.getElementById(`${side}Icon`).src = `../${data.image}`;
 
             // --- ЛОГІКА ПРОКРУТКИ ЧИСЕЛ (LERP) ---
             const lerpFactor = 0.1; 
