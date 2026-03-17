@@ -171,7 +171,11 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     50% { opacity: 0.4; transform: scale(1.2); }
     100% { opacity: 1; transform: scale(1); }
 }
-.name-wrapper { display: flex; align-items: center; gap: 8px; }
+.name-wrapper {
+    display: inline;         /* Змінюємо з flex на inline! */
+    position: relative;
+    line-height: 1.2;
+}
 .entity-selector {
     display: inline-flex;
     align-items: flex-start; /* ВАЖЛИВО: вирівнює вміст по верхньому краю */
@@ -181,11 +185,14 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     max-width: 100%;
 }
 .selector-arrow {
+    display: inline-block;   /* Стрілка стає частиною тексту */
     font-size: 10px;
     color: var(--text-dim);
-    flex-shrink: 0;
-    margin-top: 6px; /* Підганяємо вручну, щоб вона була на рівні першого рядка */
-    transition: transform 0.2s;
+    margin-left: 4px;        /* Відступ від останньої літери */
+    vertical-align: middle;  /* Центруємо відносно літери */
+    line-height: 1;
+    position: relative;
+    top: -2px;               /* Трохи піднімаємо, щоб була на рівні великих літер */
 }
 
 .entity-dropdown {
@@ -255,8 +262,8 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     font-size: 20px;
     font-weight: 700;
     text-transform: uppercase;
-    line-height: 1.2; /* Фіксуємо висоту рядка для точності */
-    display: inline;
+    display: inline;         /* Текст іде потоком */
+    vertical-align: top;
 }
 
 .visualizer {
@@ -571,8 +578,9 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 /* Фікс для того, щоб картинка і ім'я не з'їжджали вбік */
 .header-main-info {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    align-items: flex-start; /* Притискаємо все до верхнього краю */
+    gap: 10px;
+    width: 100%;
 }
 
 /* Пульсація при натисканні (опціонально) */
@@ -616,7 +624,12 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
         top: 95px;
         right: 15px;
     }
-
+.header-main-info {
+        display: flex;
+        align-items: flex-start; /* Притискаємо іконку та текст до верху */
+        gap: 12px;
+        width: 100%;
+    }
     .app-container { padding: 20px; gap: 20px; }
     .card { padding: 25px; }
 
@@ -635,7 +648,22 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     .visualizer { height: 200px; }
 
     /* Назви (NASA / ELON MUSK) */
-    .entity-name { font-size: 20px; font-weight: 700; text-transform: uppercase; display: inline;} 
+    .entity-name { 
+        font-size: 24px; /* Можна зробити трохи більшим для десктопа */
+        font-weight: 700; 
+        text-transform: uppercase; 
+        display: inline; /* Текст іде потоком */
+        line-height: 1.2;
+    } 
+    .selector-arrow {
+        display: inline-block;
+        font-size: 12px;
+        color: var(--text-dim);
+        margin-left: 6px;
+        vertical-align: middle;
+        position: relative;
+        top: -2px; /* Коригуємо висоту під великий шрифт */
+    }
 
     .subtext { font-size: 11px; }
 
