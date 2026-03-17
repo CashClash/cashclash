@@ -105,11 +105,13 @@ function renderEntityMenus(filterText = '', side = null) {
             <div class="category-group">
                 <div class="category-name">${cat}</div>
                 ${categories[cat].map(e => `
-                    <div class="entity-item" onclick="selectEntity('${s}', '${e.id}', event)">
-                        <img src="${e.image}" loading="lazy">
-                        <span>${e.name}</span>
-                    </div>
-                `).join('')}
+                  <div class="entity-item" onclick="selectEntity('${s}', '${e.id}', event)">
+                      <div class="entity-icon-wrapper">
+                          <img src="${e.image}" loading="lazy" class="entity-icon">
+                      </div>
+                      <span>${e.name}</span>
+                  </div>
+              `).join('')}
             </div>
         `).join('');
 
