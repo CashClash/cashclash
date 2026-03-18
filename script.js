@@ -52,6 +52,14 @@ async function init() {
     preloadLangNames(); 
 }
 
+function fitText(element) {
+    let fontSize = parseFloat(window.getComputedStyle(element).fontSize);
+    while (element.scrollWidth > element.offsetWidth && fontSize > 10) {
+        fontSize -= 1;
+        element.style.fontSize = fontSize + "px";
+    }
+}
+
 async function preloadLangNames() {
     for (let lang of availableLangs) {
         try {
@@ -462,6 +470,7 @@ function setupEventListeners() {
 
 function updateEntityName(side, name) {
     const nameElement = document.getElementById(side + 'Name');
+    fitText(nameElement);
     // Оновлюємо ТІЛЬКИ текст імені, не чіпаючи стрілочку, якщо вона в окремому span
     nameElement.innerText = name; 
     
