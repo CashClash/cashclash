@@ -27,6 +27,22 @@ const multipliers = {
 const rateFormatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const wholeFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
 
+function syncHeaderHeights() {
+    const headers = document.querySelectorAll('.header-main-info');
+    
+    headers.forEach(h => h.style.height = 'auto');
+    
+    let maxHeight = 0;
+    headers.forEach(h => {
+        if (h.offsetHeight > maxHeight) maxHeight = h.offsetHeight;
+    });
+    
+    headers.forEach(h => h.style.height = maxHeight + 'px');
+}
+
+window.addEventListener('load', syncHeaderHeights);
+window.addEventListener('resize', syncHeaderHeights);
+
 async function init() {
     applyInitialTheme();
     createVisualizerColumns();
