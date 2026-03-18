@@ -194,7 +194,7 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 .live-dot {
     position: absolute;
     left: 4px;
-    top: 50%;
+    top: 30%;
     transform: translateY(-50%);
     width: 6px;
     height: 6px;
