@@ -742,20 +742,34 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 
     /* Назви (NASA / ELON MUSK) */
 .entity-name {
-        font-size: clamp(14px, 4vw, 18px);
-        font-weight: 700;
-        text-transform: uppercase;
-        line-height: 1.2;
-        display: inline-block; /* Змінено з inline на inline-block */
-        vertical-align: top;
-    }
+    position: relative;
+    display: block;
+    width: 100%;
+    /* Додаємо відступ зліва, щоб звільнити місце під стрілку */
+    padding-left: 18px; 
+    
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.2;
+    
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: keep-all; /* Не розриваємо слова */
+    
+    text-align: left;
+}
 
 .selector-arrow {
-    display: inline-block;
-    font-size: 10px;
+    position: absolute;
+    left: 0;
+    top: 4px; /* Регулюйте, щоб була на рівні першого рядка */
+    font-size: 12px;
     color: var(--text-dim);
-    margin-left: 4px;
-    vertical-align: middle;
+    transition: transform 0.3s;
+}
+    .card.active .selector-arrow {
+    transform: rotate(180deg);
 }
 
     .subtext { font-size: 11px; }
