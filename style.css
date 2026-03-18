@@ -672,13 +672,11 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 
 /* Фікс для того, щоб картинка і ім'я не з'їжджали вбік */
 .header-main-info {
-    position: relative; /* База для стрілки */
+    position: relative; /* Це наш якір */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    cursor: pointer;
     width: 100%;
-    min-height: 60px; /* Щоб картки не стрибали при зміні назв */
 }
 
 /* Пульсація при натисканні (опціонально) */
@@ -741,11 +739,9 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
 
     /* Назви (NASA / ELON MUSK) */
 .entity-name {
-    position: relative;
+    /* Текст не знає про існування стрілки */
     display: block;
     width: 100%;
-    /* Додаємо відступ зліва, щоб звільнити місце під стрілку */
-    padding-left: 18px; 
     
     font-size: 18px;
     font-weight: 700;
@@ -754,21 +750,22 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     
     word-wrap: break-word;
     overflow-wrap: break-word;
-    word-break: keep-all; /* Не розриваємо слова */
-    
+    word-break: keep-all;
     text-align: left;
+    
+    /* Прибираємо будь-які паддінги, щоб не заважати скрипту */
+    padding-left: 0; 
 }
 
 .selector-arrow {
-    position: absolute;
-    left: 0;
-    top: 4px; /* Регулюйте, щоб була на рівні першого рядка */
-    font-size: 12px;
+    position: absolute; /* Пришпилюємо до місця */
+    left: -12px; /* Виносимо її ЛІВІШЕ за текст, щоб вона не перекривала першу букву */
+    top: 4px;    /* Фіксуємо зверху біля першого рядка */
+    
+    font-size: 10px;
     color: var(--text-dim);
+    pointer-events: none; /* Щоб стрілка не заважала клікати на текст */
     transition: transform 0.3s;
-}
-    .card.active .selector-arrow {
-    transform: rotate(180deg);
 }
 
     .subtext { font-size: 11px; }
