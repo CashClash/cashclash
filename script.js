@@ -367,7 +367,11 @@ function startTickers() {
             }
             
             const unitEl = document.getElementById(`${side}Unit`);
-            if(unitEl) unitEl.innerText = window.langUnits ? window.langUnits[currentTimeUnit] : `/${currentTimeUnit}`;
+            if(unitEl) {
+                const unitText = window.langUnits ? window.langUnits[currentTimeUnit] : `/${currentTimeUnit}`;
+                // Додаємо рік після одиниці часу
+                unitEl.innerText = `${unitText} ${currentYear}`; 
+            }
 
             if (window.uiLabels) {
                 const labelText = (mode === 'spending') ? window.uiLabels.spent : 
