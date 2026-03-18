@@ -138,6 +138,10 @@ function toggleEntityMenu(side, event) {
 function selectEntity(side, id, event) {
     event.stopPropagation();
     financialData[side] = entityCache[id];
+    
+    // Оновлюємо назву через спеціальну функцію, щоб спрацював фікс шрифту
+    updateEntityName(side, financialData[side].name);
+    
     document.getElementById(`${side}EntityMenu`).classList.remove('active');
     updateUI();
 }
@@ -382,10 +386,13 @@ function startTickers() {
             // -----------------------------------------------------------
 
             const visualizer = document.getElementById(`${side}Visualizer`);
-            if (visualizer) {
-                if (visualizer.children.length !== 12) {
-                    visualizer.innerHTML = Array(12).fill('<div class="bar-column"></div>').join('');
-                }
+            let yearBadge = visualizer.querySelector('.year-badge'); // Шукаємо саме у візуалізаторі
+            
+            if (!yearBadge) {
+                yearBadge = document.createElement('div');
+                yearBadge.className = 'year-badge';
+                visualizer.appendChild(yearBadge); // Додаємо всередину графіка
+            }
 
                 const columns = visualizer.children;
                 const currentMonth = now.getMonth();
@@ -447,6 +454,21 @@ function setupEventListeners() {
             updateUI();
         }
     });
+}
+
+function updateEntityName(side, name) {
+    const nameElement = document.getElementById(side + 'Name');
+    // Оновлюємо ТІЛЬКИ текст імені, не чіпаючи стрілочку, якщо вона в окремому span
+    nameElement.innerText = name; 
+    
+    // Динамічне зменшення шрифту для довгих назв (ASEAN тощо)
+    if (name.length > 25) {
+        nameElement.style.fontSize = '12px';
+    } else if (name.length > 15) {
+        nameElement.style.fontSize = '14px';
+    } else {
+        nameElement.style.fontSize = ''; // Повертає значення з CSS
+    }
 }
 
 async function takeScreenshot() {
