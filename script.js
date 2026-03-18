@@ -281,27 +281,25 @@ function updateUI() {
     });
 }
 
+// Знайдіть початок функції startTickers і замініть її на цю версію
 function startTickers() {
     const update = () => {
         const now = new Date();
         const startOfYear = new Date(parseInt(currentYear), 0, 1);
         let secondsPassed = (now - startOfYear) / 1000;
 
-        // --- НОВА ЛОГІКА МАСШТАБУВАННЯ ---
-        // Знаходимо найбільше значення серед вибраних режимів за всі роки
         let currentContextMax = 0;
         ["left", "right"].forEach(side => {
             const data = financialData[side];
-            const mode = cardModes[side]; // Дивимось, що вибрано: spending чи income
+            const mode = cardModes[side];
             if (!data) return;
 
             Object.keys(data.data).forEach(year => {
-                const val = Math.abs(data.data[year][mode].total); // Використовуємо абсолютне значення
+                const val = Math.abs(data.data[year][mode].total);
                 if (val > currentContextMax) currentContextMax = val;
             });
         });
-        currentContextMax = currentContextMax || 1; // Захист від 0
-        // --------------------------------
+        currentContextMax = currentContextMax || 1;
 
         ["left", "right"].forEach(side => {
             const data = financialData[side];
@@ -319,117 +317,82 @@ function startTickers() {
 
             const rate = basePerSec * drift[side] * multipliers[currentTimeUnit];
             
-            document.getElementById(`${side}Name`).innerText = data.name;
-            document.getElementById(`${side}Icon`).src = `../${data.image}`;
+            const nameEl = document.getElementById(`${side}Name`);
+            const iconEl = document.getElementById(`${side}Icon`);
+            if(nameEl) nameEl.innerText = data.name;
+            if(iconEl) iconEl.src = `../${data.image}`;
 
-            // --- ЛОГІКА ПРОКРУТКИ ЧИСЕЛ (LERP) ---
-            const lerpFactor = 0.1; 
-            
-            // Плавне оновлення Rate
+            const lerpFactor = 0.1;
             displayValues[`${side}Rate`] += (rate - displayValues[`${side}Rate`]) * lerpFactor;
             const rateVal = displayValues[`${side}Rate`];
             
-            document.getElementById(`${side}Rate`).innerText = (['sec', 'min'].includes(currentTimeUnit)) 
-                ? rateFormatter.format(rateVal) 
-                : wholeFormatter.format(rateVal);
+            const rateEl = document.getElementById(`${side}Rate`);
+            if(rateEl) {
+                rateEl.innerText = (['sec', 'min'].includes(currentTimeUnit)) 
+                    ? rateFormatter.format(rateVal) 
+                    : wholeFormatter.format(rateVal);
+            }
             
-            // --- ЛОГІКА КУМУЛЯТИВНОГО ЧИСЛА ТА ПУЛЬСАЦІЇ ---
             const cumElement = document.getElementById(`${side}Cumulative`);
             if (cumElement) {
-                // Плавне оновлення Cumulative (тільки якщо не Live режим, щоб не було затримки)
                 if (currentYear === "2026") {
                     displayValues[`${side}Cumulative`] = cumulative;
                 } else {
                     displayValues[`${side}Cumulative`] += (cumulative - displayValues[`${side}Cumulative`]) * lerpFactor;
                 }
-                
                 cumElement.innerText = wholeFormatter.format(displayValues[`${side}Cumulative`]);
                 
-                // Якщо загальний баланс мінусовий — вмикаємо пульсацію "кровотечі"
                 if (yearlyTotal < 0) {
                     cumElement.classList.add('bleeding');
                 } else {
                     cumElement.classList.remove('bleeding');
                 }
             }
-            // -----------------------------------------------
             
-            document.getElementById(`${side}Unit`).innerText = window.langUnits ? window.langUnits[currentTimeUnit] : `/${currentTimeUnit}`;
+            const unitEl = document.getElementById(`${side}Unit`);
+            if(unitEl) unitEl.innerText = window.langUnits ? window.langUnits[currentTimeUnit] : `/${currentTimeUnit}`;
 
-            // --- НОВА ЛОГІКА ВИБОРУ ЯРЛИКА (Підпис під великим числом) ---
             if (window.uiLabels) {
                 const labelText = (mode === 'spending') ? window.uiLabels.spent : 
                                  (yearlyTotal >= 0 ? window.uiLabels.income : window.uiLabels.loss);
-                
                 const labelElement = document.getElementById(`${side}CumLabel`);
-                if (labelElement) {
-                    labelElement.innerText = labelText; 
+                if (labelElement) labelElement.innerText = labelText; 
+            }
+
+            // ВИПРАВЛЕНО: Видалено дублювання оголошення yearBadge
+            const card = document.getElementById(`${side}Card`);
+            if (card) {
+                let badge = card.querySelector('.year-badge');
+                if (!badge) {
+                    badge = document.createElement('div');
+                    badge.className = 'year-badge';
+                    card.appendChild(badge);
+                }
+
+                if (currentYear === "2026") {
+                    badge.innerHTML = `<span class="live-dot"></span> LIVE ${currentYear}`;
+                    badge.classList.add('live-active');
+                } else {
+                    badge.innerText = currentYear;
+                    badge.classList.remove('live-active');
                 }
             }
 
-            // --- ДОДАЄМО ТЕГ РОКУ НА КАРТКУ (З ЕФЕКТОМ LIVE) ---
-            const card = document.getElementById(`${side}Card`);
-            let yearBadge = card.querySelector('.year-badge');
-            if (!yearBadge) {
-                yearBadge = document.createElement('div');
-                yearBadge.className = 'year-badge';
-                card.appendChild(yearBadge);
-            }
-
-            if (currentYear === "2026") {
-                yearBadge.innerHTML = `<span class="live-dot"></span> LIVE ${currentYear}`;
-                yearBadge.classList.add('live-active');
-            } else {
-                yearBadge.innerText = currentYear;
-                yearBadge.classList.remove('live-active');
-            }
-            // -----------------------------------------------------------
-
             const visualizer = document.getElementById(`${side}Visualizer`);
-            let yearBadge = visualizer.querySelector('.year-badge'); // Шукаємо саме у візуалізаторі
-            
-            if (!yearBadge) {
-                yearBadge = document.createElement('div');
-                yearBadge.className = 'year-badge';
-                visualizer.appendChild(yearBadge); // Додаємо всередину графіка
-            }
-
+            if (visualizer) {
                 const columns = visualizer.children;
-                const currentMonth = now.getMonth();
-                const daysInMonth = new Date(now.getFullYear(), currentMonth + 1, 0).getDate();
-                const monthProgress = now.getDate() / daysInMonth;
-
-                // Перевіряємо, чи загальний результат року від'ємний
                 const isYearlyLoss = yearlyTotal < 0;
 
                 for (let i = 0; i < 12; i++) {
                     const col = columns[i];
+                    if(!col) continue;
                     
                     const baseHeight = (Math.abs(yearlyTotal) / currentContextMax) * 100;
-
-                    let heightPercent = 0;
-                    if (i < currentMonth || currentYear !== "2026") {
-                        heightPercent = ((i + 1) / 12) * baseHeight;
-                        col.className = 'bar-column active';
-                    } else if (i === currentMonth && currentYear === "2026") {
-                        const prevHeight = (i / 12) * baseHeight;
-                        const thisMonthMax = (1 / 12) * baseHeight;
-                        heightPercent = prevHeight + (thisMonthMax * monthProgress);
-                        col.className = 'bar-column active current';
-                    } else {
-                        heightPercent = ((i + 1) / 12) * baseHeight;
-                        col.className = 'bar-column';
-                    }
-
+                    let heightPercent = ((i + 1) / 12) * baseHeight;
+                    
                     col.style.height = `${Math.max(heightPercent, 2)}%`;
-                    
-                    // --- ЛОГІКА КОЛЬОРУ ГРАФІКА ---
-                    // Якщо режим 'spending' АБО якщо доходи пішли в мінус — малюємо червоним
                     const color = (mode === 'spending' || isYearlyLoss) ? '#ff4d4d' : '#00ff88';
-                    const shadow = (mode === 'spending' || isYearlyLoss) ? 'rgba(255, 77, 77, 0.3)' : 'rgba(0, 255, 136, 0.3)';
-                    
                     col.style.setProperty('--accent-color', color);
-                    col.style.setProperty('--accent-shadow', shadow);
                 }
             }
         });
