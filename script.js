@@ -51,6 +51,7 @@ async function preloadLangNames() {
     const promises = entityList.map(async (id) => {
         try {
             const res = await fetch(`./data/${id}.json`).then(r => r.json());
+            entityCache[id] = res;
             const cat = (res.category || "OTHER").toUpperCase();
             if (!groupedEntities[cat]) groupedEntities[cat] = [];
             groupedEntities[cat].push({ id, name: res.name });
