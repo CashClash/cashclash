@@ -28,6 +28,7 @@ const wholeFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0
 
 async function init() {
     applyInitialTheme();
+    createVisualizerColumns();
     await preloadLangNames();
     await loadLanguage(currentLang);
     setupEventListeners();
@@ -55,22 +56,19 @@ async function loadLanguage(lang) {
         const main = await fetch(`./main.json`).then(r => r.json());
         applyMainTexts(main);
         
-        // Завантажуємо дані для всіх сутностей зі списку
-        const entityPromises = entityList.map(id => 
-            fetch(`./data/${id}.json`).then(r => r.json())
-        );
-        const entities = await Promise.all(entityPromises);
-        
-        // Зберігаємо в кеш для швидкого перемикання
-        entities.forEach(e => entityCache[e.id] = e);
+        // Завантажуємо дані лише для двох вибраних сутностей, щоб не спамити запитами
+        const leftId = financialData.left ? financialData.left.id : 'nasa';
+        const rightId = financialData.right ? financialData.right.id : 'elon-musk';
 
-        // Початковий вибір (якщо ще нічого не вибрано)
-        if (!financialData.left) financialData.left = entityCache['nasa'];
-        if (!financialData.right) financialData.right = entityCache['elon-musk'];
-        
-        // Оновлюємо дані, якщо мова змінилася (беремо свіжі переклади з кешу)
-        financialData.left = entityCache[financialData.left.id];
-        financialData.right = entityCache[financialData.right.id];
+        const [leftRes, rightRes] = await Promise.all([
+            fetch(`./data/${leftId}.json`).then(r => r.json()),
+            fetch(`./data/${rightId}.json`).then(r => r.json())
+        ]);
+
+        financialData.left = leftRes;
+        financialData.right = rightRes;
+        entityCache[leftId] = leftRes;
+        entityCache[rightId] = rightRes;
 
         renderLangSelector();
         renderEntityMenus();
@@ -135,15 +133,18 @@ function toggleEntityMenu(side, event) {
     menu.classList.toggle('active');
 }
 
-function selectEntity(side, id, event) {
+async function selectEntity(side, id, event) {
     event.stopPropagation();
-    financialData[side] = entityCache[id];
-    
-    // Оновлюємо назву через спеціальну функцію, щоб спрацював фікс шрифту
-    updateEntityName(side, financialData[side].name);
-    
-    document.getElementById(`${side}EntityMenu`).classList.remove('active');
-    updateUI();
+    try {
+        // Завантажуємо дані сутності безпосередньо при кліку
+        const res = await fetch(`./data/${id}.json`).then(r => r.json());
+        financialData[side] = res;
+        entityCache[id] = res;
+
+        updateEntityName(side, res.name);
+        document.getElementById(`${side}EntityMenu`).classList.remove('active');
+        updateUI();
+    } catch (e) { console.error("Error selecting entity", e); }
 }
 
 window.addEventListener('click', () => {
@@ -245,9 +246,6 @@ function updateUI() {
         const mode = cardModes[side];
         const container = document.getElementById(`${side}Details`);
         const breakdown = data.data[currentYear][mode].breakdown;
-        
-        // --- НОВА ЛОГІКА СОРТУВАННЯ ---
-        // Перетворюємо об'єкт у масив і сортуємо за відсотком (від найбільшого)
         const sortedItems = Object.values(breakdown).sort((a, b) => {
             return Math.abs(b.percent) - Math.abs(a.percent);
         });
@@ -281,7 +279,6 @@ function updateUI() {
     });
 }
 
-// Знайдіть початок функції startTickers і замініть її на цю версію
 function startTickers() {
     const update = () => {
         const now = new Date();
@@ -380,7 +377,7 @@ function startTickers() {
 
             const visualizer = document.getElementById(`${side}Visualizer`);
             if (visualizer) {
-                const columns = visualizer.children;
+                const columns = visualizer.querySelectorAll('.bar-column');
                 const isYearlyLoss = yearlyTotal < 0;
 
                 for (let i = 0; i < 12; i++) {
@@ -505,5 +502,22 @@ async function takeScreenshot() {
         btn.innerHTML = originalContent;
     }
 }
+function createVisualizerColumns() {
+    ["left", "right"].forEach(side => {
+        const visualizer = document.getElementById(`${side}Visualizer`);
+        if (visualizer) {
+            // Очищуємо все, крім бейджа року (якщо він там є)
+            const badge = visualizer.querySelector('.year-badge-inside');
+            visualizer.innerHTML = ''; 
+            if (badge) visualizer.appendChild(badge);
 
+            // Створюємо 12 стовпців
+            for (let i = 0; i < 12; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'bar-column';
+                visualizer.appendChild(bar);
+            }
+        }
+    });
+}
 init();
