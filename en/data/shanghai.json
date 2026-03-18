@@ -1,7 +1,7 @@
 {
   "id": "shanghai",
   "name": "Shanghai",
-  "image": "images/shanghai.jpg",
+  "image": "images/shanghai.webp",
   "category": "city",
   "data": {
     "2026": {
