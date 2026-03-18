@@ -52,11 +52,22 @@ async function init() {
     preloadLangNames(); 
 }
 
-function fitText(element) {
-    let fontSize = parseFloat(window.getComputedStyle(element).fontSize);
-    while (element.scrollWidth > element.offsetWidth && fontSize > 10) {
-        fontSize -= 1;
-        element.style.fontSize = fontSize + "px";
+function adjustFontSize(element) {
+    const parent = element.parentElement;
+    // Отримуємо доступну ширину (віднімаємо аватарку та gap)
+    // Або просто порівнюємо з шириною батька, якщо flex: 1
+    let maxAllowedWidth = parent.clientWidth - 60; // приблизний запас під аватарку
+    
+    let currentFontSize = parseInt(window.getComputedStyle(element).fontSize);
+    const minFontSize = 10; // поріг, нижче якого вже нечитабельно
+
+    // Скидаємо перед перевіркою
+    element.style.fontSize = ""; 
+    
+    // Цикл зменшення
+    while (element.scrollWidth > element.offsetWidth && currentFontSize > minFontSize) {
+        currentFontSize -= 1;
+        element.style.fontSize = currentFontSize + "px";
     }
 }
 
@@ -359,9 +370,7 @@ function startTickers() {
 
             const rate = basePerSec * drift[side] * multipliers[currentTimeUnit];
             
-            const nameEl = document.getElementById(`${side}Name`);
             const iconEl = document.getElementById(`${side}Icon`);
-            if(nameEl) nameEl.innerText = data.name;
             if(iconEl) iconEl.src = `../${data.image}`;
 
             const lerpFactor = 0.1;
@@ -470,20 +479,18 @@ function setupEventListeners() {
 
 function updateEntityName(side, name) {
     const nameElement = document.getElementById(side + 'Name');
-    fitText(nameElement);
-    // Оновлюємо ТІЛЬКИ текст імені, не чіпаючи стрілочку, якщо вона в окремому span
+    if (!nameElement) return;
+
     nameElement.innerText = name; 
     
-    // Динамічне зменшення шрифту для довгих назв (ASEAN тощо)
-    if (name.length > 25) {
-        nameElement.style.fontSize = '12px';
-    } else if (name.length > 15) {
-        nameElement.style.fontSize = '14px';
-    } else {
-        nameElement.style.fontSize = ''; // Повертає значення з CSS
-    }
-  
-    setTimeout(syncHeaderHeights, 0);
+    // 1. Скидаємо стиль, щоб функція починала розрахунок з дефолтного розміру
+    nameElement.style.fontSize = ''; 
+
+    // 2. Викликаємо автоматичну підгонку (даємо мікро-затримку, щоб DOM встиг оновитися)
+    setTimeout(() => {
+        adjustFontSize(nameElement);
+        syncHeaderHeights(); // Вирівнюємо висоту після зміни шрифту
+    }, 0);
 }
 
 async function takeScreenshot() {
@@ -517,8 +524,12 @@ async function takeScreenshot() {
                     }
                     
                     if (currentYear === "2026") {
-                        badge.innerHTML = `<span style="display:inline-block; width:6px; height:6px; background:#ff4d4d; border-radius:50%; margin-right:4px;"></span> 2026`;
-                        badge.style.color = '#ff4d4d';
+                      badge.innerHTML = `<span style="display:inline-block; width:6px; height:6px; background:#ff4d4d; border-radius:50%; margin-right:4px;"></span> 2026`;
+                      badge.style.color = '#ff4d4d';
+                      badge.style.position = 'absolute'; // ОСЬ ЦЕ ДОДАЙ
+                      badge.style.top = '10px';         // ПРИБЛИЗНО
+                      badge.style.right = '10px';
+                  }
                     } else {
                         badge.innerText = currentYear;
                         badge.style.color = 'var(--text-dim)';
