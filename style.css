@@ -124,8 +124,12 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     position: relative; /* ВАЖЛИВО: залишаємо для позиціонування "?" та бейджів */
 }
 .card:hover {
+    z-index: 999;
     transform: translateY(-5px);
     border-color: var(--text-dim);
+}
+.card:focus-within {
+    z-index: 999;
 }
 
 .card.spending { border-top: 3px solid var(--red-accent); }
@@ -598,8 +602,8 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     position: absolute;
     top: 100%;
     right: 0;
-    width: 200px;
-    z-index: 100;
+    width: 180px;
+    z-index: 1000;
     background: var(--card-bg);
     border: 1px solid var(--border);
     color: var(--text-main);
@@ -607,7 +611,7 @@ nav button.active { background: var(--text-main); color: var(--bg-color); }
     border-radius: 8px;
     font-size: 11px;
     line-height: 1.4;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.9);
     visibility: hidden;
     opacity: 0;
     transition: 0.2s;
